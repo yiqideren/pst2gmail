@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+pst-clean-gmail-importer-parent.iml
+importer/pst-clean-gmail-importer-app.iml
+importer/target
+exchange-services/exchange-services.iml
+.idea
+exchange-services/target
