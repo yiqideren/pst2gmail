@@ -1,5 +1,6 @@
-package com.atsid.outlook.pst;
+package com.atsid.outlook.app;
 
+import com.atsid.outlook.pst.PstParser;
 import com.pff.PSTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

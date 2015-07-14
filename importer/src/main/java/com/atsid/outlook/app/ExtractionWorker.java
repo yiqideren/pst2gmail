@@ -1,5 +1,6 @@
-package com.atsid.outlook.pst;
+package com.atsid.outlook.app;
 
+import com.atsid.outlook.pst.PstParser;
 import lombok.Setter;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;

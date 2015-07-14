@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Log4j
@@ -50,6 +52,8 @@ public class GmailServiceFactory {
      * Global instance of the scopes required by this quickstart.
      */
     private static final List<String> SCOPES = Arrays.asList(GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_INSERT);
+    private Map<String, String> emailCredentialMap = new HashMap<>();
+    private Map<String, Gmail> emailServiceMap = new HashMap<>();
 
     static {
         try {
@@ -84,14 +88,30 @@ public class GmailServiceFactory {
         }
     }
 
+    public void addCredentials(String emailAddress, String jsonCredentialFile) {
+        emailCredentialMap.put(emailAddress, jsonCredentialFile);
+    }
+
     /**
      * Build and return an authorized Gmail client service.
      *
+     * @param emailAddress Email address of account being migrated
      * @return an authorized Gmail client service
      * @throws IOException
      */
-    public Gmail getGmailService(String jsonCredentialFile) throws IOException {
-        Credential credential = authorize(jsonCredentialFile);
-        return new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
+    public Gmail getGmailService(String emailAddress) throws IOException {
+        if (emailCredentialMap.containsKey(emailAddress) && !emailCredentialMap.containsKey(emailAddress)) {
+            Credential credential = authorize(emailCredentialMap.get(emailAddress));
+            Gmail gmailService =
+                    new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)
+                                                                               .build();
+            emailServiceMap.put(emailAddress, gmailService);
+
+            return gmailService;
+        } else if (emailCredentialMap.containsKey(emailAddress)) {
+            return emailServiceMap.get(emailAddress);
+        } else {
+            throw new IllegalStateException("Do not have credentials to import using " + emailAddress);
+        }
     }
 }

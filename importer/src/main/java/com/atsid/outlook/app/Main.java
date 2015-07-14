@@ -1,4 +1,4 @@
-package com.atsid.outlook.pst;
+package com.atsid.outlook.app;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 

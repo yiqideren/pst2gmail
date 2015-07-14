@@ -1,5 +1,6 @@
-package com.atsid.outlook.pst;
+package com.atsid.outlook.app;
 
+import com.atsid.outlook.pst.AttachmentExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 @Configuration
-@ComponentScan(basePackages = { "com.atsid.outlook.pst", "com.atsid.exchange" })
+@ComponentScan(basePackages = { "com.atsid.outlook", "com.atsid.exchange" })
 @ImportResource("classpath:applicationContext.xml")
 public class ExtractApplication implements CommandLineRunner {
     @Autowired
