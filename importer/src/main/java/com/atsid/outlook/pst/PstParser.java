@@ -9,11 +9,12 @@ import com.pff.PSTException;
 import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +24,19 @@ import java.util.List;
 public class PstParser implements ApplicationContextAware {
     @Setter
     private ApplicationContext applicationContext;
-    @Autowired
-    private GmailServiceFactory gmailServiceFactory;
-    private List<String> ignoredFolders =
-            Arrays.asList("Deleted Items", "Calendar", "Contacts", "Junk E-mail", "Drafts", "RSS Feeds", "Outbox",
-                    "Search Folders");
+    @Value("${ignored.folders}")
+    private String ignoredFolderString;
+    private List<String> ignoredFolders;
+
+    @PostConstruct
+    private void createIgnoredFoldersList() {
+        String[] folders = ignoredFolderString.split(",");
+        ignoredFolders = new ArrayList<>();
+
+        for (String folder : folders) {
+            ignoredFolders.add(folder.trim());
+        }
+    }
 
     public int countEmails(String pstFileName) throws IOException, PSTException {
         PstMessageCountingFolderHandler folderHandler = getCountingHandler();
@@ -39,7 +48,7 @@ public class PstParser implements ApplicationContextAware {
     }
 
     public void processPst(String pstFileName, String emailAddress, String outputPath, PstMessageHandler messageHandler,
-            String jsonCredentialFile, ProgressUpdate progressUpdate) throws IOException, PSTException {
+            ProgressUpdate progressUpdate) throws IOException, PSTException {
         PstMessageCleaningGMailImportingFolderHandler folderHandler = getProcessingHandler();
         PSTFile pstFile = openPstFile(pstFileName);
 
@@ -47,8 +56,6 @@ public class PstParser implements ApplicationContextAware {
         folderHandler.setOutputPath(outputPath);
         folderHandler.setMessageHandler(messageHandler);
         folderHandler.setProgressUpdate(progressUpdate);
-        /// TODO: Fix handler to get gmail service
-        //folderHandler.setGmailService(gmailServiceFactory.getGmailService(jsonCredentialFile));
 
         processPstFolder(pstFile.getRootFolder(), folderHandler, Boolean.TRUE, new ArrayList<String>());
     }
@@ -93,13 +100,10 @@ public class PstParser implements ApplicationContextAware {
     }
 
     private PstMessageCleaningGMailImportingFolderHandler getProcessingHandler() {
-        //        return applicationContext.getBean("pstMessageCleaningGmailImportingFolderHandler",
-        //                PstMessageCleaningGmailImportingFolderHandler.class);
         return applicationContext.getBean(PstMessageCleaningGMailImportingFolderHandler.class);
     }
 
     private PstMessageCountingFolderHandler getCountingHandler() {
-        //        return applicationContext.getBean("pstMessageCountingFolderHandler", PstMessageCountingFolderHandler.class);
         return applicationContext.getBean(PstMessageCountingFolderHandler.class);
     }
 

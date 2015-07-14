@@ -100,7 +100,7 @@ public class GmailServiceFactory {
      * @throws IOException
      */
     public Gmail getGmailService(String emailAddress) throws IOException {
-        if (emailCredentialMap.containsKey(emailAddress) && !emailCredentialMap.containsKey(emailAddress)) {
+        if (emailCredentialMap.containsKey(emailAddress) && !emailServiceMap.containsKey(emailAddress)) {
             Credential credential = authorize(emailCredentialMap.get(emailAddress));
             Gmail gmailService =
                     new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)

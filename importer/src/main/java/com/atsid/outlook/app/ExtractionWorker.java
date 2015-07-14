@@ -1,6 +1,8 @@
 package com.atsid.outlook.app;
 
+import com.atsid.outlook.pst.GmailServiceFactory;
 import com.atsid.outlook.pst.PstParser;
+import com.atsid.outlook.pst.message.GmailImportingPstMessageHandler;
 import lombok.Setter;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -25,6 +27,10 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
     private String jsonCredentialFile;
     @Setter
     private int itemCount;
+    @Autowired
+    private GmailServiceFactory gmailServiceFactory;
+    @Autowired
+    private GmailImportingPstMessageHandler gmailMessageHandler;
 
     @Override
     protected Void doInBackground() throws Exception {
@@ -35,11 +41,13 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
             @Override
             public void updateProgress(int progress) {
                 int newProgress = (int) Math.floor(((double) progress / (double) itemCount) * 100.0);
+                System.out.println(String.format("Processed message %d", progress));
                 setProgress(newProgress > 100 ? 100 : newProgress);
             }
         };
         try {
-            pstParser.processPst(pstFile, emailAddress, outputDirectoryText, null, jsonCredentialFile, progressUpdate);
+            gmailServiceFactory.addCredentials(emailAddress, jsonCredentialFile);
+            pstParser.processPst(pstFile, emailAddress, outputDirectoryText, gmailMessageHandler, progressUpdate);
             setProgress(100);
         } catch (Exception ex) {
             System.out.println("Caught exception");

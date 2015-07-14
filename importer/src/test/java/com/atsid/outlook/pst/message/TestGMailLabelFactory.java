@@ -37,8 +37,7 @@ public class TestGMailLabelFactory {
 
     @Test
     public void testGetLabelerNotExist() throws IOException {
-        Mockito.when(mockApplicationContext.getBean("gmailLabeler", mockGmailService, "testing"))
-               .thenReturn(mockLabeler);
+        Mockito.when(mockApplicationContext.getBean("gmailLabeler")).thenReturn(mockLabeler);
 
         GMailLabeler result = labelFactory.getLabeler(mockGmailService, "testing");
 
@@ -49,8 +48,7 @@ public class TestGMailLabelFactory {
 
     @Test
     public void testGetLabelerCached() throws IOException {
-        Mockito.when(mockApplicationContext.getBean("gmailLabeler", mockGmailService, "testing"))
-               .thenReturn(mockLabeler);
+        Mockito.when(mockApplicationContext.getBean("gmailLabeler")).thenReturn(mockLabeler);
 
         GMailLabeler result1 = labelFactory.getLabeler(mockGmailService, "testing");
 
@@ -69,13 +67,14 @@ public class TestGMailLabelFactory {
 
     @Test
     public void testGetLabelerFailedInit() throws IOException {
-        Mockito.when(mockApplicationContext.getBean("gmailLabeler", mockGmailService, "testing"))
-               .thenReturn(mockLabeler);
+        Mockito.when(mockApplicationContext.getBean("gmailLabeler")).thenReturn(mockLabeler);
         Mockito.doThrow(new IOException()).when(mockLabeler).loadLabels();
 
         GMailLabeler result = labelFactory.getLabeler(mockGmailService, "testing");
 
         Assert.assertNull(result);
+        Mockito.verify(mockLabeler).setGmailService(Mockito.eq(mockGmailService));
+        Mockito.verify(mockLabeler).setEmailAddress(Mockito.eq("testing"));
         Mockito.verify(mockLabeler).loadLabels();
     }
 }

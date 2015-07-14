@@ -64,7 +64,7 @@ public class MessageConverter {
             setFromExchange(pstMessage, mimeMessage);
         }
 
-        messageUtils.updateSubject(pstMessage, strippedAttachments.isEmpty(), mimeMessage);
+        messageUtils.updateSubject(pstMessage, !strippedAttachments.isEmpty(), mimeMessage);
         mimeMessage.setSentDate(pstMessage.getMessageDeliveryTime());
         mimeMessage.setFlag(Flags.Flag.ANSWERED, pstMessage.hasReplied());
         mimeMessage.setFlag(Flags.Flag.FLAGGED, pstMessage.isFlagged());
@@ -91,7 +91,7 @@ public class MessageConverter {
             mimeMessage.setFrom(new InternetAddress(senderEmail));
         } else {
             log.error(String.format("Could not find sender email address for message %d with sender %s",
-                    pstMessage.getDescriptorNode(), pstMessage.getSenderEmailAddress()));
+                    pstMessage.getDescriptorNodeId(), pstMessage.getSenderEmailAddress()));
         }
     }
 

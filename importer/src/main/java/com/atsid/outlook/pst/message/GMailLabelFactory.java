@@ -36,18 +36,23 @@ public class GMailLabelFactory implements ApplicationContextAware {
         if (labelers.containsKey(emailAddress)) {
             return labelers.get(emailAddress);
         } else {
-            GMailLabeler labeler =
-                    (GMailLabeler) applicationContext.getBean("gmailLabeler", gmailService, emailAddress);
+            GMailLabeler labeler = (GMailLabeler) applicationContext.getBean("gmailLabeler");
 
-            try {
-                labeler.loadLabels();
-            } catch (IOException ioe) {
-                log.error(String.format("Could not create gmail labeler for %s due to an IOException.", emailAddress),
-                        ioe);
-                return null;
+            if (labeler != null) {
+                labeler.setGmailService(gmailService);
+                labeler.setEmailAddress(emailAddress);
+
+                try {
+                    labeler.loadLabels();
+                } catch (IOException ioe) {
+                    log.error(
+                            String.format("Could not create gmail labeler for %s due to an IOException.", emailAddress),
+                            ioe);
+                    return null;
+                }
+
+                labelers.put(emailAddress, labeler);
             }
-
-            labelers.put(emailAddress, labeler);
 
             return labeler;
         }

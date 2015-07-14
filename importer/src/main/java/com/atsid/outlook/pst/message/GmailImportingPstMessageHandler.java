@@ -6,7 +6,6 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.Message;
 import com.pff.PSTMessage;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +19,7 @@ import java.util.List;
 @Component
 @Log4j
 public class GmailImportingPstMessageHandler implements PstMessageHandler {
-    @Setter
+    @Autowired
     private GmailServiceFactory gmailServiceFactory;
     @Autowired
     private AttachmentExtractor extractor;
@@ -43,9 +42,8 @@ public class GmailImportingPstMessageHandler implements PstMessageHandler {
                     Arrays.asList(label.getId(), labeler.getAvailableLabel(GMailLabeler.PST_IMPORT_LABEL).getId()));
             gmailService.users().messages().gmailImport(emailAddress, gmailMessage).execute();
         } catch (Exception ex) {
-            log.error(
-                    String.format("Caught exception while processing message %d for %s", pstMessage.getDescriptorNode(),
-                            emailAddress), ex);
+            log.error(String.format("Caught exception while processing message %d for %s",
+                    pstMessage.getDescriptorNodeId(), emailAddress), ex);
         }
 
     }

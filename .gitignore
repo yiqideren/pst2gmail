@@ -5,3 +5,4 @@ importer/target
 exchange-services/exchange-services.iml
 .idea
 exchange-services/target
+coverage-error.log

@@ -86,7 +86,7 @@ public class TestMessageConverter {
         Mockito.verify(mockMessageUtils)
                .copyHeaders(Mockito.eq(mockPstMessage), Mockito.eq("output"), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockMessageUtils)
-               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(true), Mockito.eq(mockMimeMessage));
+               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(false), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockPstMessage).getSenderAddrtype();
         Mockito.verify(mockMimeMessage).setSentDate(Mockito.eq(currentDate));
         Mockito.verify(mockMimeMessage).setFlag(Mockito.eq(Flags.Flag.ANSWERED), Mockito.eq(true));
@@ -112,7 +112,7 @@ public class TestMessageConverter {
         Mockito.verify(mockMessageUtils)
                .copyHeaders(Mockito.eq(mockPstMessage), Mockito.eq("output"), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockMessageUtils)
-               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(true), Mockito.eq(mockMimeMessage));
+               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(false), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockPstMessage).getSenderAddrtype();
         Mockito.verify(mockMimeMessage).setSentDate(Mockito.eq(currentDate));
         Mockito.verify(mockMimeMessage).setFlag(Mockito.eq(Flags.Flag.ANSWERED), Mockito.eq(true));
@@ -139,7 +139,7 @@ public class TestMessageConverter {
         Mockito.verify(mockMessageUtils)
                .copyHeaders(Mockito.eq(mockPstMessage), Mockito.eq("output"), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockMessageUtils)
-               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(true), Mockito.eq(mockMimeMessage));
+               .updateSubject(Mockito.eq(mockPstMessage), Mockito.eq(false), Mockito.eq(mockMimeMessage));
         Mockito.verify(mockPstMessage).getSenderAddrtype();
         Mockito.verify(mockMimeMessage).setSentDate(Mockito.eq(currentDate));
         Mockito.verify(mockMimeMessage).setFlag(Mockito.eq(Flags.Flag.ANSWERED), Mockito.eq(true));
