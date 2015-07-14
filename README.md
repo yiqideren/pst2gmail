@@ -26,6 +26,7 @@ Builds are done with maven.
 3.  Change into the directory where you build the application
 4.  Change into the importer/target folder
 5.  run `java -jar pst-clean-gmail-importer-app-1.0-SNAPSHOT.jar -Dconfig.file=<FULL_PATH_TO_APPLICATION_PROPERTIES_FILE>`
+  *. At some point the application will start up your default browser and give you a permissions prompt.  This will only happen the first time you run the application.
 6.  In the interface, enter the following:
   1.  Browse to find PST file
   2.  Enter output directory where attachments will get placed (or browse)
