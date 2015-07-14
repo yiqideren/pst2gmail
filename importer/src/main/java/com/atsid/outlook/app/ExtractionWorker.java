@@ -4,6 +4,7 @@ import com.atsid.outlook.pst.GmailServiceFactory;
 import com.atsid.outlook.pst.PstParser;
 import com.atsid.outlook.pst.message.GmailImportingPstMessageHandler;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.format.PeriodFormatter;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.swing.SwingWorker;
 
 @Component
+@Log4j
 public class ExtractionWorker extends SwingWorker<Void, Void> {
     @Autowired
     PstParser pstParser;
@@ -35,13 +37,12 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
     @Override
     protected Void doInBackground() throws Exception {
         setProgress(0);
-        System.out.println("Starting processing");
+        log.info("Starting processing");
         DateTime startDate = new DateTime();
         ProgressUpdate progressUpdate = new ProgressUpdate() {
             @Override
             public void updateProgress(int progress) {
                 int newProgress = (int) Math.floor(((double) progress / (double) itemCount) * 100.0);
-                System.out.println(String.format("Processed message %d", progress));
                 setProgress(newProgress > 100 ? 100 : newProgress);
             }
         };
@@ -50,8 +51,7 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
             pstParser.processPst(pstFile, emailAddress, outputDirectoryText, gmailMessageHandler, progressUpdate);
             setProgress(100);
         } catch (Exception ex) {
-            System.out.println("Caught exception");
-            ex.printStackTrace();
+            log.error("Caught exception", ex);
         } finally {
             DateTime endDate = new DateTime();
             Duration duration = new Duration(endDate.getMillis() - startDate.getMillis());
@@ -59,9 +59,9 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
                     new PeriodFormatterBuilder().appendHours().appendSuffix("h").appendMinutes().appendSuffix("m")
                                                 .appendSeconds().appendSuffix("s").toFormatter();
             String formatted = formatter.print(duration.toPeriod());
-            System.out.println("Duration: " + formatted);
+            log.info("Duration: " + formatted);
         }
-        System.out.println("Done processing");
+        log.info("Done processing");
         return null;
     }
 
