@@ -1,7 +1,6 @@
 package com.atsid.outlook.pst.folder;
 
-import com.atsid.outlook.pst.ProgressUpdate;
-import com.atsid.outlook.pst.folder.PstMessageCleaningGmailImportingFolderHandler;
+import com.atsid.outlook.app.ProgressUpdate;
 import com.atsid.outlook.pst.message.PstMessageHandler;
 import com.pff.PSTAppointment;
 import com.pff.PSTContact;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext-test.xml" })
-public class TestPstMessageCleaningGmailImportingFolderHandler {
+public class TestPstMessageCleaningGMailImportingFolderHandler {
     @Mock
     private ProgressUpdate mockProgressUpdate;
     @Mock
@@ -45,7 +44,7 @@ public class TestPstMessageCleaningGmailImportingFolderHandler {
     private List<String> folderNames;
     @Autowired
     @InjectMocks
-    private PstMessageCleaningGmailImportingFolderHandler folderHandler;
+    private PstMessageCleaningGMailImportingFolderHandler folderHandler;
 
     @Before
     public void setup() {
