@@ -13,6 +13,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
@@ -30,7 +31,8 @@ public class GmailServiceFactory {
     /**
      * Application name.
      */
-    private static final String APPLICATION_NAME = "Outlook PST Attachment Stripping Import";
+    @Value("${gmail.application.name}")
+    private String APPLICATION_NAME;
     /**
      * Directory to store user credentials.
      */
