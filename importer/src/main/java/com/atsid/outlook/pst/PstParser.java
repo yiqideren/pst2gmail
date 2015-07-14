@@ -2,7 +2,7 @@ package com.atsid.outlook.pst;
 
 import com.atsid.outlook.app.ProgressUpdate;
 import com.atsid.outlook.pst.folder.PstFolderHandler;
-import com.atsid.outlook.pst.folder.PstMessageCleaningGMailImportingFolderHandler;
+import com.atsid.outlook.pst.folder.PstMessageCleaningGmailImportingFolderHandler;
 import com.atsid.outlook.pst.folder.PstMessageCountingFolderHandler;
 import com.atsid.outlook.pst.message.PstMessageHandler;
 import com.pff.PSTException;
@@ -49,7 +49,7 @@ public class PstParser implements ApplicationContextAware {
 
     public void processPst(String pstFileName, String emailAddress, String outputPath, PstMessageHandler messageHandler,
             ProgressUpdate progressUpdate) throws IOException, PSTException {
-        PstMessageCleaningGMailImportingFolderHandler folderHandler = getProcessingHandler();
+        PstMessageCleaningGmailImportingFolderHandler folderHandler = getProcessingHandler();
         PSTFile pstFile = openPstFile(pstFileName);
 
         folderHandler.setEmailAddress(emailAddress);
@@ -99,8 +99,8 @@ public class PstParser implements ApplicationContextAware {
         return !ignoredFolders.contains(folder.getDisplayName());
     }
 
-    private PstMessageCleaningGMailImportingFolderHandler getProcessingHandler() {
-        return applicationContext.getBean(PstMessageCleaningGMailImportingFolderHandler.class);
+    private PstMessageCleaningGmailImportingFolderHandler getProcessingHandler() {
+        return applicationContext.getBean(PstMessageCleaningGmailImportingFolderHandler.class);
     }
 
     private PstMessageCountingFolderHandler getCountingHandler() {

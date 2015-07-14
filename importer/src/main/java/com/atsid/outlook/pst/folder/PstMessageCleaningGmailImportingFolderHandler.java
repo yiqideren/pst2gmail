@@ -20,7 +20,7 @@ import java.util.List;
 @Component("1pstMessageCleaningGmailImportingFolderHandler")
 @Scope("prototype")
 @Log4j
-public class PstMessageCleaningGMailImportingFolderHandler implements PstFolderHandler {
+public class PstMessageCleaningGmailImportingFolderHandler implements PstFolderHandler {
     @Getter
     @Setter
     private String emailAddress;
