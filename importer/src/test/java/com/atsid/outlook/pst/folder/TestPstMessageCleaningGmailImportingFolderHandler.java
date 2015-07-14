@@ -24,7 +24,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext-test.xml" })
-public class TestPstMessageCleaningGMailImportingFolderHandler {
+public class TestPstMessageCleaningGmailImportingFolderHandler {
     @Mock
     private ProgressUpdate mockProgressUpdate;
     @Mock
@@ -44,7 +44,7 @@ public class TestPstMessageCleaningGMailImportingFolderHandler {
     private List<String> folderNames;
     @Autowired
     @InjectMocks
-    private PstMessageCleaningGMailImportingFolderHandler folderHandler;
+    private PstMessageCleaningGmailImportingFolderHandler folderHandler;
 
     @Before
     public void setup() {
