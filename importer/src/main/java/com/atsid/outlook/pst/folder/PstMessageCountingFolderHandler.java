@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component("1pstMessageCountingFolderHandler")
-@Scope("prototype")
 /**
  * PST Folder handler that simply counts entries in non-root folders.  Items are only counted in root folders if it
  * has no sub-folders.
- */ public class PstMessageCountingFolderHandler implements PstFolderHandler {
+ */
+@Component("1pstMessageCountingFolderHandler")
+@Scope("prototype")
+public class PstMessageCountingFolderHandler implements PstFolderHandler {
     @Getter
     private int messageCount = 0;
 

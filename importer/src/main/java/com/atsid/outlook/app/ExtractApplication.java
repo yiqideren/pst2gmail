@@ -7,12 +7,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 
+/**
+ * SpringBoot <code>CommandLineRunner</code> that builds and runs email extraction application.
+ */
 @Configuration
-@ComponentScan(basePackages = { "com.atsid.outlook", "com.atsid.exchange" })
+@ComponentScan(basePackages = {"com.atsid.outlook", "com.atsid.exchange"})
 @ImportResource("classpath:applicationContext.xml")
 public class ExtractApplication implements CommandLineRunner {
     @Autowired
@@ -30,6 +31,9 @@ public class ExtractApplication implements CommandLineRunner {
         });
     }
 
+    /**
+     * Helper method used to create and display prompt screen.
+     */
     private void createAndShowPromptScreen() {
         JFrame frame = new JFrame("EmailAttachmentExtractionImportTool");
 

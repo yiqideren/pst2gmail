@@ -7,12 +7,13 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 
-@Component
-@Log4j
 /**
  * Logger that outputs various information to indicate an attachment was stripped from an email or that an error was
  * encountered during the extraction process.
- */ public class AttachmentLogger {
+ */
+@Component
+@Log4j
+public class AttachmentLogger {
     private static final String ATTACHMENT_LOG_STRING = "Extracted attachment %s (%s) from email %d%n";
     private static final String ERROR_LOG_STRING =
             "Error extracting attachment from %s (%s) from email %d with error %s%n";
@@ -46,7 +47,7 @@ import java.io.IOException;
      * @param exception      Exception encountered that caused extraction error.
      */
     public void logAttachmentError(Long emailId, String fileName, String attachmentName, String outputPath,
-            Exception exception) {
+                                   Exception exception) {
         try {
             FileUtils.writeStringToFile(getErrorLogFile(outputPath),
                     String.format(ERROR_LOG_STRING, fileName, attachmentName, emailId, exception.getMessage()), true);
@@ -55,6 +56,13 @@ import java.io.IOException;
         }
     }
 
+    /**
+     * Logs an error message encountered when there was an issue processing the sender field.
+     *
+     * @param emailId    Node ID of email in PST file
+     * @param outputPath Full output path to where we can write content
+     * @param sender     Email address that generated error
+     */
     public void logSenderError(Long emailId, String outputPath, String sender) {
         try {
             FileUtils.writeStringToFile(getErrorLogFile(outputPath),
@@ -64,10 +72,22 @@ import java.io.IOException;
         }
     }
 
+    /**
+     * Helper method to open attachment log file
+     *
+     * @param outputPath Full output path to where we can write content
+     * @return Returns a <code>File</code> for the attachment log
+     */
     private File getAttachmentLogFile(String outputPath) {
         return new File(outputPath + File.separator + "attachments.log");
     }
 
+    /**
+     * Helper method to open error log file
+     *
+     * @param outputPath Full output path to where we can write content
+     * @return Returns a <code>File</code> for the error log
+     */
     private File getErrorLogFile(String outputPath) {
         return new File(outputPath + File.separator + "error.log");
     }

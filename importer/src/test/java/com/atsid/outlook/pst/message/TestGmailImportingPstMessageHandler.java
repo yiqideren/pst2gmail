@@ -82,6 +82,14 @@ public class TestGmailImportingPstMessageHandler {
         Mockito.when(mockLabeler.getAvailableLabel(GMailLabeler.PST_IMPORT_LABEL)).thenReturn(mockLabel2);
     }
 
+    /**
+     * Tests processEmailMessage in non-batch mode.  Currently processEmailMessage in batch mode
+     * is not tested due to Google making methods final so we can't mock them.
+     *
+     * @throws IOException
+     * @throws PSTException
+     * @throws MessagingException
+     */
     @Test
     public void testProcessEmailMessage() throws IOException, PSTException, MessagingException {
         messageHandler.processEmailMessage(mockPstMessage, "output", folderNames, EMAIL_ADDRESS);

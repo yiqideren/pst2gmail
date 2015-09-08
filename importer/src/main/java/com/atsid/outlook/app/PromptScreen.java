@@ -5,23 +5,21 @@ import com.pff.PSTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * Displays a dialog using Swing to prompt for info and display a progress bar.
+ */
 @Component
 public class PromptScreen extends JPanel implements ActionListener, PropertyChangeListener {
     private JButton startButton;
@@ -45,6 +43,9 @@ public class PromptScreen extends JPanel implements ActionListener, PropertyChan
     @Autowired
     PstParser pstParser;
 
+    /**
+     * Creates a new <code>PromptScreen</code> dialog.
+     */
     public PromptScreen() {
         super(new GridLayout(4, 1));
 
@@ -181,8 +182,11 @@ public class PromptScreen extends JPanel implements ActionListener, PropertyChan
         }
     }
 
+    /**
+     * Helper method used to enable start button if all required info has been provided.
+     */
     private void checkStartEnable() {
         startButton.setEnabled(!(jsonFileText.getText().isEmpty() || pstFilePathText.getText().isEmpty() ||
-                                 outputDirectoryText.getText().isEmpty() || emailAddress.getText().isEmpty()));
+                outputDirectoryText.getText().isEmpty() || emailAddress.getText().isEmpty()));
     }
 }
