@@ -64,7 +64,7 @@ public class MessageUtils {
      * @throws MessagingException
      */
     public void copyContent(PSTMessage pstMessage, List<String> strippedAttachments, MimeBodyPart text,
-            MimeBodyPart html, MimeMultipart content) throws MessagingException {
+                            MimeBodyPart html, MimeMultipart content) throws MessagingException {
         if (strippedAttachments == null || strippedAttachments.isEmpty()) {
             text.setText(pstMessage.getBody());
             content.addBodyPart(text);
@@ -134,15 +134,15 @@ public class MessageUtils {
                 PSTRecipient recipient = pstMessage.getRecipient(i);
 
                 switch (recipient.getRecipientType()) {
-                case PSTRecipient.MAPI_TO:
-                    mimeMessage.addRecipients(javax.mail.Message.RecipientType.TO, recipient.getSmtpAddress());
-                    break;
-                case PSTRecipient.MAPI_CC:
-                    mimeMessage.addRecipients(javax.mail.Message.RecipientType.CC, recipient.getSmtpAddress());
-                    break;
-                case PSTRecipient.MAPI_BCC:
-                    mimeMessage.addRecipients(javax.mail.Message.RecipientType.BCC, recipient.getSmtpAddress());
-                    break;
+                    case PSTRecipient.MAPI_TO:
+                        mimeMessage.addRecipients(javax.mail.Message.RecipientType.TO, recipient.getSmtpAddress());
+                        break;
+                    case PSTRecipient.MAPI_CC:
+                        mimeMessage.addRecipients(javax.mail.Message.RecipientType.CC, recipient.getSmtpAddress());
+                        break;
+                    case PSTRecipient.MAPI_BCC:
+                        mimeMessage.addRecipients(javax.mail.Message.RecipientType.BCC, recipient.getSmtpAddress());
+                        break;
                 }
             }
         }
@@ -158,7 +158,7 @@ public class MessageUtils {
      * @throws MessagingException
      */
     private void extractFromAddressFromHeader(PSTMessage pstMessage, String outputPath, MimeMessage mimeMessage,
-            String header) throws MessagingException {
+                                              String header) throws MessagingException {
         String sender;
 
         if (!"SMTP".equals(pstMessage.getSenderAddrtype())) {
@@ -176,25 +176,57 @@ public class MessageUtils {
         }
     }
 
+    /**
+     * Helper method used to determine if header is a FROM header.
+     *
+     * @param header header to check
+     * @return Returns true if it is a FROM header, false otherwise
+     */
     private boolean isFromHeader(String header) {
         return header.toLowerCase().startsWith("from:");
     }
 
+    /**
+     * Helper method used to identify if the header is one that contains a recipient header type.
+     *
+     * @param header Header to check
+     * @return Returns true if  header is a recipient type, false otherwise
+     */
     private boolean isUsableHeader(String header) {
         String lowerHeader = header.toLowerCase();
 
         return !lowerHeader.startsWith("to:") && !lowerHeader.startsWith("cc:") && !lowerHeader.startsWith("bcc:");
     }
 
+    /**
+     * Helper method used to build HTML body content for message.
+     *
+     * @param attachmentMap Content of attachments that have been removed for this message
+     * @param bodyHtml      Body HTML for the remainder of the message
+     * @return Returns a properly formatted HTMl message with the attachments prefixed into the message using PRE tags
+     * to preserve formatting.
+     */
     private String buildHtmlContent(String attachmentMap, String bodyHtml) {
         return "<pre>" + attachmentMap + "</pre>" + bodyHtml;
 
     }
 
+    /**
+     * Helper method used to build modified subject to indicate attachments have been stripped.
+     *
+     * @param subject Subject to modify
+     * @return Returns a modified subject indicating attachments have been stripped
+     */
     private String buildSubject(String subject) {
         return attachmentSubjectPrefix + subject;
     }
 
+    /**
+     * Helper method used to build a string table to identify what attachments have been removed for this message.
+     *
+     * @param strippedAttachments List of stripped attachments from the current message
+     * @return Returns a formatted string that contains the list of attachments stripped from the current message
+     */
     private String buildAttachmentMap(List<String> strippedAttachments) {
         StringBuilder builder = new StringBuilder();
 

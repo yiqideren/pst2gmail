@@ -25,6 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service factory class for interacting with GMail services.
+ */
 @Component
 @Log4j
 public class GmailServiceFactory {
@@ -90,6 +93,12 @@ public class GmailServiceFactory {
         }
     }
 
+    /**
+     * Adds a new set of credentials to the credential map.
+     *
+     * @param emailAddress       Email address of account we are attempting to process
+     * @param jsonCredentialFile JSON credential file used to authenticate for specified email address
+     */
     public void addCredentials(String emailAddress, String jsonCredentialFile) {
         emailCredentialMap.put(emailAddress, jsonCredentialFile);
     }
@@ -106,7 +115,7 @@ public class GmailServiceFactory {
             Credential credential = authorize(emailCredentialMap.get(emailAddress));
             Gmail gmailService =
                     new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)
-                                                                               .build();
+                            .build();
             emailServiceMap.put(emailAddress, gmailService);
 
             return gmailService;

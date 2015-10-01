@@ -14,9 +14,13 @@ import org.springframework.stereotype.Component;
 
 import javax.swing.SwingWorker;
 
+/**
+ * <code>SwingWorker</code> that kicks off the import process in the background.
+ */
 @Component
 @Log4j
 public class ExtractionWorker extends SwingWorker<Void, Void> {
+
     @Autowired
     PstParser pstParser;
     @Setter
@@ -57,11 +61,13 @@ public class ExtractionWorker extends SwingWorker<Void, Void> {
             Duration duration = new Duration(endDate.getMillis() - startDate.getMillis());
             PeriodFormatter formatter =
                     new PeriodFormatterBuilder().appendHours().appendSuffix("h").appendMinutes().appendSuffix("m")
-                                                .appendSeconds().appendSuffix("s").toFormatter();
+                            .appendSeconds().appendSuffix("s").toFormatter();
             String formatted = formatter.print(duration.toPeriod());
             log.info("Duration: " + formatted);
         }
+
         log.info("Done processing");
+
         return null;
     }
 
