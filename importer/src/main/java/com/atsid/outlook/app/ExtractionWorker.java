@@ -12,7 +12,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 
 /**
  * <code>SwingWorker</code> that kicks off the import process in the background.
