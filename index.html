@@ -1,0 +1,35 @@
+---
+sites:
+- title: API Program
+  url: /api-program
+- title: Midas
+  url: /midas
+- title: FBOpen Docs
+  url: /fbopen
+---
+<h1>Introduction</h1>
+<p>This is the home for <a href="http://jekyllrb.com/">Jekyll</a>-based websites published by <a href="https://18f.gsa.gov/">18F</a>.</p>
+
+<h2>18f-pages-server</h2>
+
+<p>The <a href="https://www.npmjs.com/package/18f-pages-server">18f-pages-server npm</a> is the publishing mechanism for this website.</p>
+
+<h2>18F Guides</h2>
+
+<p>Our collection of <a href="/guides/">best practices guides</a>.</p>
+
+<h2>Guides Template</h2>
+
+<p>A <a href="/guides-template/">template for 18F Guides sites</a> that is also a complete 18F Guides publishing tutorial.</p>
+
+<h2>18F Slides</h2>
+
+<p>Host slide decks like this <a href="https://pages.18f.gov/slides/sample/#/">example</a> from the <a href="https://github.com/18F/slides">18F Slides repo</a> on GitHub.</p>
+
+<h2>Other Sites</h2>
+
+<p>Other sites published here include:</p>
+
+<ul>{% for s in page.sites %}
+<li><a href="{{ s.url }}">{{ s.title }}</a></li>
+{% endfor %}</ul>
